@@ -21,15 +21,19 @@ func main() {
 		RandomDelay: 1 * time.Second,
 	})
 
+	// Before making a request print "Visiting ..."
+	c.OnRequest(func(r *colly.Request) {
+		fmt.Println("Visiting", r.URL.String())
+	})
+
 	detailCollector := c.Clone()
 
+	// Finds all iframes (https://cannabis.lacity.org/resources/authorized-retail-businesses uses
+	// Google Sheets embedded via iframe to host list of legal retailers)
 	c.OnHTML("iframe", func(e *colly.HTMLElement) {
 		iframeURL := e.Attr("src")
-		// Print link
-		// fmt.Printf("Link found: %q -> %s/n", e.Text, link)
-		//  Visit link found on page
+		// Only visit iframe src if it's google docs, assuming 'google' in url for now
 		if strings.Contains(iframeURL, "google") {
-			fmt.Println("1st iframe", iframeURL)
 			parsedIframeURL, err := url.Parse(iframeURL)
 			if err != nil {
 				log.Fatal(err)
@@ -44,15 +48,6 @@ func main() {
 	detailCollector.OnHTML("tr", func(r *colly.HTMLElement) {
 		fmt.Println("2nd iframe")
 		fmt.Println(r.Text)
-	})
-
-	// c.OnResponse(func(r *colly.Response) {
-	// 	fmt.Println(r.Body)
-	// })
-
-	// Before making a request print "Visiting ..."
-	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL.String())
 	})
 
 	c.Visit("https://cannabis.lacity.org/resources/authorized-retail-businesses")

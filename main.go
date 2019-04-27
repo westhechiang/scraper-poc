@@ -22,10 +22,12 @@ type Dispensary struct {
 	ZipCode      string
 	Type         string
 	Activity     bool
+	Latitude     float32
+	Longitude    float32
 }
 
 func main() {
-	db, err := gorm.Open("postgres", "test.db")
+	db, err := gorm.Open("postgres", "host=docker.for.mac.localhost port=5432 user=postgres dbname=authorized_dispensaries password=postgres")
 	if err != nil {
 		panic("failed to connect database")
 	}

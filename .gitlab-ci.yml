@@ -1,0 +1,28 @@
+# Official docker image.
+image: docker:latest
+
+services:
+  - docker:dind
+
+before_script:
+  - docker login -u $DOCKER_USER -p $DOCKER_PW
+
+build-master:
+  stage: build
+  script:
+    - docker build --pull -t yangdafish/losangelocks:latest .
+    - docker push yangdafish/losangelocks:latest
+    # - cd nginx && docker build --pull -t "yangdafish/nginx:lockweb" .
+    # - docker push "yangdafish/nginx:lockweb"
+  only:
+    - master
+
+build:
+  stage: build
+  script:
+    - docker build --pull -t "yangdafish/losangelocks:$CI_COMMIT_REF_SLUG" .
+    - docker push "yangdafish/losangelocks:$CI_COMMIT_REF_SLUG"
+    # - cd nginx && docker build --pull -t "yangdafish/nginx:lockweb_$CI_COMMIT_REF_SLUG" .
+    # - docker push "yangdafish/nginx:lockweb_$CI_COMMIT_REF_SLUG"
+  except:
+    - master

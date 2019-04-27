@@ -8,9 +8,29 @@ import (
 	"time"
 
 	"github.com/gocolly/colly"
+	// "github.com/jinzhu/gorm"
+	// _ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
+// Dispensary represents an retailer found on
+// https://cannabis.lacity.org/resources/authorized-retail-businesses
+// type Dispensary struct {
+// 	gorm.Model
+// 	Name         string
+// 	StreetNumber uint
+// 	StreetName   string
+// 	ZipCode      string
+// 	Type         string
+// 	Activity     bool
+// }
+
 func main() {
+	// db, err := gorm.Open("postgres", "test.db")
+	// if err != nil {
+	// 	panic("failed to connect database")
+	// }
+	// defer db.Close()
+
 	// Instantiate default collector
 	c := colly.NewCollector()
 	c.IgnoreRobotsTxt = false
@@ -34,6 +54,8 @@ func main() {
 		iframeURL := e.Attr("src")
 		// Only visit iframe src if it's google docs, assuming 'google' in url for now
 		if strings.Contains(iframeURL, "google") {
+			// Original url contains query-string values that causes the google sheet to be
+			// opened in another iframe, so we parse and strip the query-string
 			parsedIframeURL, err := url.Parse(iframeURL)
 			if err != nil {
 				log.Fatal(err)

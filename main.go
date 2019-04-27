@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/url"
+	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -75,10 +77,50 @@ func main() {
 	})
 
 	detailCollector.OnHTML("tbody", func(tbody *colly.HTMLElement) {
+		nameIndex := 0
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
 		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
 			if trIndex >= 3 {
-				tr.ForEach("td", func(_ int, td *colly.HTMLElement) {
-					fmt.Println(td.Text)
+				dispensary := Dispensary{}
+
+				tr.ForEach("td", func(tdIndex int, td *colly.HTMLElement) {
+					if tdIndex == nameIndex {
+						dispensary.Name = td.Text
+					}
+
+					if tdIndex == addressIndex {
+						addressNumbersRegEx := regexp.MustCompile("[0-9-]+")
+						addressNumbers := addressNumbersRegEx.FindAllString(td.Text, -1)
+						streetNameRegEx := regexp.MustCompile("[A-Za-z]+")
+
+						streetName := streetNameRegEx.FindString(td.Text)
+						streetNumber := addressNumbers[0]
+						zipCode := addressNumbers[1]
+
+						dispensary.StreetName = streetName
+						streetNumberParsed, _ := strconv.ParseUint(streetNumber, 0, 64)
+						dispensary.StreetNumber = uint(streetNumberParsed)
+						dispensary.ZipCode = zipCode
+					}
+
+					if tdIndex == typeIndex {
+						dispensary.Type = td.Text
+					}
+
+					if tdIndex == activityIndex {
+						if td.Text == "X" {
+							dispensary.Activity = true
+						}
+					}
+
+					// => returns `true` as primary key is blank
+					if db.NewRecord(dispensary) {
+						db.Create(&dispensary)
+					}
+
 				})
 			}
 		})

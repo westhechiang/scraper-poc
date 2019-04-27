@@ -8,28 +8,28 @@ import (
 	"time"
 
 	"github.com/gocolly/colly"
-	// "github.com/jinzhu/gorm"
-	// _ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // Dispensary represents an retailer found on
 // https://cannabis.lacity.org/resources/authorized-retail-businesses
-// type Dispensary struct {
-// 	gorm.Model
-// 	Name         string
-// 	StreetNumber uint
-// 	StreetName   string
-// 	ZipCode      string
-// 	Type         string
-// 	Activity     bool
-// }
+type Dispensary struct {
+	gorm.Model
+	Name         string
+	StreetNumber uint
+	StreetName   string
+	ZipCode      string
+	Type         string
+	Activity     bool
+}
 
 func main() {
-	// db, err := gorm.Open("postgres", "test.db")
-	// if err != nil {
-	// 	panic("failed to connect database")
-	// }
-	// defer db.Close()
+	db, err := gorm.Open("postgres", "test.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
 
 	// Instantiate default collector
 	c := colly.NewCollector()

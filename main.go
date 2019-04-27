@@ -31,6 +31,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// auto-create the dispensary table if it doens't exist
+	db.AutoMigrate(&Dispensary{})
+
+	// Close db after the main function has finished
 	defer db.Close()
 
 	// Instantiate default collector
@@ -69,9 +74,14 @@ func main() {
 		}
 	})
 
-	detailCollector.OnHTML("tr", func(r *colly.HTMLElement) {
-		fmt.Println("2nd iframe")
-		fmt.Println(r.Text)
+	detailCollector.OnHTML("tbody", func(tbody *colly.HTMLElement) {
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			if trIndex >= 3 {
+				tr.ForEach("td", func(_ int, td *colly.HTMLElement) {
+					fmt.Println(td.Text)
+				})
+			}
+		})
 	})
 
 	c.Visit("https://cannabis.lacity.org/resources/authorized-retail-businesses")

@@ -82,10 +82,14 @@ func main() {
 		typeIndex := 2
 		activityIndex := 3
 
+		// Loop through each table row
 		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
 			if trIndex >= 3 {
 				dispensary := Dispensary{}
 
+				// Parse each td element and construct Dispensary object
 				tr.ForEach("td", func(tdIndex int, td *colly.HTMLElement) {
 					if tdIndex == nameIndex {
 						dispensary.Name = td.Text
@@ -116,11 +120,10 @@ func main() {
 						}
 					}
 
-					// => returns `true` as primary key is blank
+					// Create Dispensary record
 					if db.NewRecord(dispensary) {
 						db.Create(&dispensary)
 					}
-
 				})
 			}
 		})

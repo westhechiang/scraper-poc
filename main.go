@@ -27,9 +27,9 @@ type Dispensary struct {
 }
 
 func main() {
-	db, err := gorm.Open("postgres", "host=docker.for.mac.localhost port=5432 user=postgres dbname=authorized_dispensaries password=postgres")
+	db, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=authorized_dispensaries password=postgres sslmode=disable")
 	if err != nil {
-		panic("failed to connect database")
+		panic(err)
 	}
 	defer db.Close()
 

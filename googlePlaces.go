@@ -4,15 +4,12 @@ import (
 	"context"
 	"log"
 
+	"github.com/jinzhu/gorm"
 	"github.com/kr/pretty"
 	"googlemaps.github.io/maps"
 )
 
-type Dispensary struct {
-	Name string
-}
-
-func main() {
+func saveLocationForAllDispensaries(db *gorm.DB) {
 	// Instantiate the google client
 	const apiKey = "AIzaSyD6_lXiJVGD79LJ8cKks1SaK4C4jDhH2u8"
 	client, err := maps.NewClient(maps.WithAPIKey(apiKey))
@@ -22,25 +19,25 @@ func main() {
 	}
 
 	// Get dispensaries from the database
-	dispensaries := getDispensaries()
+	dispensaries := getDispensaries(db)
+
+	pretty.Printf("Dispensaries %s", dispensaries)
 
 	// Get the dispensaries latitude/longitude
 	for _, dispensary := range dispensaries {
+		// TODO - pass more specific address than 'dispensary.Name'
 		location := getPossibleDispensaryLatLng(dispensary.Name, client)
 
 		// save updated dispensary to the database
-		saveDispensaryLocation(dispensary, location)
+		saveDispensaryLocation(dispensary, location, db)
 	}
 }
 
-func getDispensaries() []Dispensary {
+func getDispensaries(db *gorm.DB) []Dispensary {
 	dispensaries := []Dispensary{}
 
-	dispensary := Dispensary{
-		Name: "Big Jo",
-	}
-
-	dispensaries = append(dispensaries, dispensary)
+	// Get all the dispensaries
+	db.Find(&dispensaries)
 
 	return dispensaries
 }
@@ -77,7 +74,9 @@ func getPossibleDispensaryLatLng(possibleDispensary string, client *maps.Client)
 	return returnLocation
 }
 
-func saveDispensaryLocation(dispensary Dispensary, placeLocation maps.LatLng) {
-	pretty.Printf("Dispensary %s", dispensary)
-	pretty.Printf("Place Location: %s", placeLocation)
+func saveDispensaryLocation(dispensary Dispensary, placeLocation maps.LatLng, db *gorm.DB) {
+	db.Model(&dispensary).Updates(Dispensary{
+		Latitude:  float32(placeLocation.Lat),
+		Longitude: float32(placeLocation.Lng),
+	})
 }

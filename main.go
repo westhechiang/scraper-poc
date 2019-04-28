@@ -14,32 +14,24 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// Dispensary represents an retailer found on
-// https://cannabis.lacity.org/resources/authorized-retail-businesses
-type Dispensary struct {
-	gorm.Model
-	Name         string
-	StreetNumber uint
-	StreetName   string
-	ZipCode      string
-	Type         string
-	Activity     bool
-	Latitude     float32
-	Longitude    float32
-}
-
 func main() {
-	db, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=authorized_dispensaries password=postgres sslmode=disable")
-	if err != nil {
-		panic(err)
-	}
+	db := getDatabase()
 
-	// auto-create the dispensary table if it doens't exist
+	// Auto-create the dispensary table if it doens't exist
 	db.AutoMigrate(&Dispensary{})
 
 	// Close db after the main function has finished
 	defer db.Close()
 
+	// Scrape dispensaries
+	scrapeDispensaries(db)
+
+	// Iterate over dispensaries and update their
+	// lat & lng from a place service provider
+	saveLocationForAllDispensaries(db)
+}
+
+func scrapeDispensaries(db *gorm.DB) {
 	// Instantiate default collector
 	c := colly.NewCollector()
 	c.IgnoreRobotsTxt = false

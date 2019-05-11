@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/url"
 	"regexp"
+	"scraper-poc/database"
+	"scraper-poc/models"
+	"scraper-poc/scrapers"
 	"strconv"
 	"strings"
 	"time"
@@ -15,7 +18,7 @@ import (
 )
 
 func main() {
-	db := getDatabase()
+	db := database.GetDatabase()
 
 	// Auto-create the dispensary table if it doens't exist
 	db.AutoMigrate(&Dispensary{}, &Product{}, &ProductImages{})
@@ -24,11 +27,14 @@ func main() {
 	defer db.Close()
 
 	// Scrape dispensaries
-	scrapeDispensaries(db)
+	// scrapeDispensaries(db)
 
 	// Iterate over dispensaries and update their
 	// lat & lng from a place service provider
-	saveLocationForAllDispensaries(db)
+	// saveLocationForAllDispensaries(db)
+
+	// Iterate over dispensaries and update their
+	scrapers.GetAndSaveProducts(db)
 }
 
 func scrapeDispensaries(db *gorm.DB) {
@@ -79,7 +85,377 @@ func scrapeDispensaries(db *gorm.DB) {
 			// We don't care about the first 3 rows as they don't
 			// contain data we need
 			if trIndex >= 3 {
-				dispensary := Dispensary{}
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
+		addressIndex := 1
+		typeIndex := 2
+		activityIndex := 3
+
+		// Loop through each table row
+		tbody.ForEach("tr", func(trIndex int, tr *colly.HTMLElement) {
+			// We don't care about the first 3 rows as they don't
+			// contain data we need
+			if trIndex >= 3 {
+				dispensary := models.Dispensary{}
 
 				// Parse each td element and construct Dispensary object
 				tr.ForEach("td", func(tdIndex int, td *colly.HTMLElement) {

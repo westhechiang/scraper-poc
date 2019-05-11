@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"scraper-poc/models"
 
 	"github.com/jinzhu/gorm"
 	"github.com/kr/pretty"
@@ -33,8 +34,8 @@ func saveLocationForAllDispensaries(db *gorm.DB) {
 	}
 }
 
-func getDispensaries(db *gorm.DB) []Dispensary {
-	dispensaries := []Dispensary{}
+func getDispensaries(db *gorm.DB) []models.Dispensary {
+	dispensaries := []models.Dispensary{}
 
 	// Get all the dispensaries
 	db.Find(&dispensaries)
@@ -74,8 +75,8 @@ func getPossibleDispensaryLatLng(possibleDispensary string, client *maps.Client)
 	return returnLocation
 }
 
-func saveDispensaryLocation(dispensary Dispensary, placeLocation maps.LatLng, db *gorm.DB) {
-	db.Model(&dispensary).Updates(Dispensary{
+func saveDispensaryLocation(dispensary models.Dispensary, placeLocation maps.LatLng, db *gorm.DB) {
+	db.Model(&dispensary).Updates(models.Dispensary{
 		Latitude:  float32(placeLocation.Lat),
 		Longitude: float32(placeLocation.Lng),
 	})

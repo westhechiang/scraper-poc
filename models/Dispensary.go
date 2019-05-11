@@ -16,21 +16,3 @@ type Dispensary struct {
 	Longitude    float32
 	LegalStatus  string
 }
-
-type Product struct {
-	gorm.Model
-	RefID       uint
-	ProductType string
-	Name        string
-	Status      string
-	// Category    string // Cat
-	ProductTypeID uint
-	Description   string
-	DispensaryID  uint
-}
-
-type ProductImages struct {
-	gorm.Model
-	ProductID uint
-	Link      string
-}

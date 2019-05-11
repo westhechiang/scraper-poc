@@ -18,7 +18,10 @@ import (
 func GetAndSaveProducts(db *gorm.DB) {
 	// Loop over all the products in green rush
 	// a little over 1 million entries exist
-	for i := 1130947; i > 1129947; i-- {
+	var rowToStartFrom = 1130947
+	var rowsToTraverse = 1129947
+
+	for i := rowToStartFrom; i > rowsToTraverse; i-- {
 		url := fmt.Sprintf("https://www.greenrush.com/api/v2/menu/%d?include=availability", i)
 		fmt.Println("Visiting", url)
 		resp, err := http.Get(url)

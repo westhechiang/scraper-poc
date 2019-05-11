@@ -18,7 +18,7 @@ func main() {
 	db := getDatabase()
 
 	// Auto-create the dispensary table if it doens't exist
-	db.AutoMigrate(&Dispensary{})
+	db.AutoMigrate(&Dispensary{}, &Product{}, &ProductImages{})
 
 	// Close db after the main function has finished
 	defer db.Close()

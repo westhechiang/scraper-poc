@@ -14,10 +14,30 @@ type Dispensary struct {
 	Activity     bool
 	Latitude     float32
 	Longitude    float32
+	LegalStatus  string
+}
+
+type Product struct {
+	gorm.Model
+	RefID       uint
+	ProductType string
+	Name        string
+	Status      string
+	// Category    string // Cat
+	ProductTypeID uint
+	Description   string
+	DispensaryID  uint
+}
+
+type ProductImages struct {
+	gorm.Model
+	ProductID uint
+	Link      string
 }
 
 func getDatabase() *gorm.DB {
 	db, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=authorized_dispensaries password=postgres sslmode=disable")
+	// db, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres-dev dbname=dev password=scraper1 sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
